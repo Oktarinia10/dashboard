@@ -1,16 +1,22 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 import Home from "./pages/dashboard/home";
+import DataKatalog from "./pages/dataKatalog/index";
+import TambahKatalog from "./pages/dataKatalog/tambah";
+import EditKatalog from "./pages/dataKatalog/edit";
 import './App.css';
 
-import Landing from "./pages/landing";
+import Login from "./pages/login";
 
 function App() {
   return (
     <Router>
         <Routes>
-          <Route path='/' element={<Landing/>}></Route>
+          <Route path='/' element={<Login/>}></Route>
           <Route path='/dashboard' element={<Home/>}></Route>
+          <Route path='/katalog' element={<DataKatalog/>}></Route>
+          <Route path='/tambah' element={<TambahKatalog/>}></Route>
+          <Route path='/edit' element={<EditKatalog/>}></Route>
         </Routes>
     </Router>
   );
