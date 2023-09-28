@@ -1,8 +1,42 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import NavbarDashboard from "../../components/dashboard/navbar";
+import { getProductsByID } from '../../api';
+
 
 function EditKatalog() {
+  const {id_product} = useParams();
+  const cdnLink = "https://terangnesia.sgp1.cdn.digitaloceanspaces.com/";
+  const [idProduct, setIdProducts] = useState([]);
+  const [owner, setOwner] = useState([]);
+  const [name, setName] = useState([]);
+  const [label, setLabel] = useState([]);
+  const [description, setDescription] = useState([]);
+  const [price, setPrice] = useState([]);
+  const [location, setLokasi] = useState([]);
+  const [thumbnail, setThumbnail] = useState([]);
+
+  useEffect(() => {
+      const fetchDataFromAPI = async () => {
+          try {
+              const responseData = await getProductsByID(id_product);
+              setIdProducts(responseData.data);
+              setOwner(responseData.data.product.owner);
+              setName(responseData.data.product.name);
+              setLabel(responseData.data.product.label);
+              setDescription(responseData.data.product.description);
+              setPrice(responseData.data.product.price);
+              setLokasi(responseData.data.product.location);
+              setThumbnail(responseData.data.product.thumbnail);
+              
+          } catch (error) {
+              console.error('Terjadi kesalahan:', error);
+          }
+      };
+
+      fetchDataFromAPI();
+  }, [id_product]);
+  
   return (
 <div>
     <NavbarDashboard/>
@@ -45,20 +79,19 @@ function EditKatalog() {
                         <form>
                           <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Nama Produk</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <input type="text" className="form-control" value={name}></input>
                           </div>
                           <div className="form-group"> 
                             <label htmlFor="exampleInputPassword1">Label</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                            <input type="text" className="form-control" value={label}></input>
                           </div>
                           <div className="form-group"> 
                             <label htmlFor="exampleInputPassword1">Pemilik</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                            <input type="text" className="form-control" value={owner}></input>
                           </div>
                           <div className="form-group">
                             <label htmlFor="exampleFormControlTextarea1">Deskripsi</label>
-                            <textarea className="form-control" id="exampleFormControlTextarea1" rows={3} defaultValue={""} />
+                            <textarea value={description} className="form-control" rows={3}></textarea>
                           </div>
                           <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
@@ -67,15 +100,15 @@ function EditKatalog() {
                         <form>
                           <div className="form-group">
                             <label>Harga</label>
-                            <input type="text" className="form-control" placeholder="Text" />
+                            <input type="text" className="form-control" value={price}></input>
                           </div>
                           <div className="form-group">
                             <label>Lokasi</label>
-                            <input type="text" className="form-control" placeholder="Text" />
+                            <input type="text" className="form-control" value={location}></input>
                           </div>
                           <div className="form-group">
                             <label>Gambar Thumbnail</label>
-                            <input type="file" className="form-control" placeholder="Text" />
+                            <img src={cdnLink + thumbnail} height="50"></img>
                           </div>
                         </form>
                       </div>

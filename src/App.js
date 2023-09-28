@@ -16,7 +16,7 @@ function App() {
           <Route path='/dashboard' element={<Home/>}></Route>
           <Route path='/katalog' element={<DataKatalog/>}></Route>
           <Route path='/tambah' element={<TambahKatalog/>}></Route>
-          <Route path='/edit' element={<EditKatalog/>}></Route>
+          <Route path='/edit/:id_product' element={<EditKatalog/>}></Route>
         </Routes>
     </Router>
   );

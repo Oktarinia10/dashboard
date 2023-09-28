@@ -86,18 +86,13 @@ function IndexDataKatalog() {
                           <td>{product.location}</td>
                           <td><img src={cdnLink + product.thumbnail} alt={product.name} height="30"></img></td>
                           <td>
-                          <Link to="/edit" className="feather icon-edit text-warning" ></Link>
+                          <Link to={`/edit/${product.id_product}`} className="feather icon-edit text-warning" ></Link>
                           <Link to="/hapus" className="feather icon-trash mx-4 text-danger"></Link>
                           </td>
                           </tr>
                               
                           ))}
                           
-                            
-                            
-
-                            
-                            
                         </tbody>
                       </table>
                     </div>
