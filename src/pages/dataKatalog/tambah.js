@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import NavbarDashboard from "../components/dashboard/navbar";
-// import Sidebar from "./components/dashboard/sidebar";
+import { addProducts } from '../../api';
 import NavbarDashboard from "../../components/dashboard/navbar";
-import Navbar from "../../components/navbar";
-import Sidebar from "../../components/dashboard/sidebar";
+
 
 
 function TambahKatalog() {
+  const cdnLink = "https://terangnesia.sgp1.cdn.digitaloceanspaces.com/";
+  const [name, label, description, owner, price, location, file] = useState('');
+  const handleInputChange = (e) => {
+    name(e.target.value);
+    label(e.target.value);
+    description(e.target.value);
+    owner(e.target.value);
+    price(e.target.value);
+    location(e.target.value);
+    file(e.target.value);
+};
+  useEffect(() => {
+    const addDataFromAPI = async () => {
+        try {
+            await addProducts(name, label, description, owner, price, location, file);
+           
+        } catch (error) {
+            console.error('Terjadi kesalahan:', error);
+        }
+    };
+    addDataFromAPI();
+}, [name, label, description, owner, price, location, file]);
   return (
 <div>
     <NavbarDashboard/>
@@ -44,43 +64,43 @@ function TambahKatalog() {
                     <h5>Form Tambah Produk</h5>
                   </div>
                   <div className="card-body">
-                    
                     <div className="row">
                       <div className="col-md-6">
-                        <form>
+                        <form onSubmit={handleInputChange} >
                           <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Nama Produk</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <input type="text" value={name} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                           <div className="form-group"> 
                             <label htmlFor="exampleInputPassword1">Label</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                            <input type="text" value={label} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                           <div className="form-group"> 
                             <label htmlFor="exampleInputPassword1">Pemilik</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                            <input type="text" value={owner} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                           <div className="form-group">
                             <label htmlFor="exampleFormControlTextarea1">Deskripsi</label>
-                            <textarea className="form-control" id="exampleFormControlTextarea1" rows={3} defaultValue={""} />
+                            <textarea className="form-control" id="exampleFormControlTextarea1" rows={3} defaultValue={""}>
+                            {description}
+                            </textarea>
                           </div>
                           <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
                       </div>
                       <div className="col-md-6">
-                        <form>
+                        <form onSubmit={handleInputChange}>
                           <div className="form-group">
                             <label>Harga</label>
-                            <input type="text" className="form-control" placeholder="Text" />
+                            <input type="text" value={price} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                           <div className="form-group">
                             <label>Lokasi</label>
-                            <input type="text" className="form-control" placeholder="Text" />
+                            <input type="text" value={location} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                           <div className="form-group">
                             <label>Gambar Thumbnail</label>
-                            <input type="file" className="form-control" placeholder="Text" />
+                            <input type="file" value={file} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                           </div>
                         </form>
                       </div>

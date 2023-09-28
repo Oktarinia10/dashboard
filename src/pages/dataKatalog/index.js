@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchProducts } from '../../api';
 import NavbarDashboard from "../../components/dashboard/navbar";
 
+
 function IndexDataKatalog() {
+  
+  const cdnLink = "https://terangnesia.sgp1.cdn.digitaloceanspaces.com/";
+  const [products, setProducts] = useState([]);
+  const [limit] = useState(10);
+  const [offset] = useState(0);
+  useEffect(() => {
+      const fetchDataFromAPI = async () => {
+          try {
+              const responseData = await fetchProducts(limit, offset);
+              setProducts(responseData.data);
+          } catch (error) {
+              console.error('Terjadi kesalahan:', error);
+          }
+      };
+
+      fetchDataFromAPI();
+  }, [limit, offset]);
+  
   return (
     <div>
       <NavbarDashboard/>
@@ -45,7 +65,6 @@ function IndexDataKatalog() {
                       <table className="table table-striped">
                         <thead>
                           <tr>
-                            <th>#</th>
                             <th>Nama Produk</th>
                             <th>Label</th>
                             <th>Deskripsi</th>
@@ -57,20 +76,28 @@ function IndexDataKatalog() {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>
-                            <Link to="/edit" className="feather icon-edit text-warning" ></Link>
-                            <Link to="/hapus" className="feather icon-trash mx-4 text-danger"></Link>
-                            </td>
+                        {products.map((product) => (
+                          <tr key={product.id_product}>
+                          <td>{product.name}</td>
+                          <td>{product.label}</td>
+                          <td>{product.description}</td>
+                          <td>{product.owner}</td>
+                          <td>{product.price}</td>
+                          <td>{product.location}</td>
+                          <td><img src={cdnLink + product.thumbnail} alt={product.name} height="30"></img></td>
+                          <td>
+                          <Link to="/edit" className="feather icon-edit text-warning" ></Link>
+                          <Link to="/hapus" className="feather icon-trash mx-4 text-danger"></Link>
+                          </td>
                           </tr>
+                              
+                          ))}
+                          
+                            
+                            
+
+                            
+                            
                         </tbody>
                       </table>
                     </div>
