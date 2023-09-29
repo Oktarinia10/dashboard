@@ -6,28 +6,67 @@ import NavbarDashboard from "../../components/dashboard/navbar";
 
 
 function TambahKatalog() {
+  const [isLoading, setLoading] = useState(false);
+  const [isAlertVisible, setAlertVisible] = useState(false);
   const cdnLink = "https://terangnesia.sgp1.cdn.digitaloceanspaces.com/";
   const [name, label, description, owner, price, location, file] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    label: "",
+    description: "",
+    owner: "",
+    price: "",
+    location: "",
+    file: null, // Untuk mengunggah file gambar
+  });
+
   const handleInputChange = (e) => {
-    name(e.target.value);
-    label(e.target.value);
-    description(e.target.value);
-    owner(e.target.value);
-    price(e.target.value);
-    location(e.target.value);
-    file(e.target.value);
-};
-  useEffect(() => {
-    const addDataFromAPI = async () => {
-        try {
-            await addProducts(name, label, description, owner, price, location, file);
-           
-        } catch (error) {
-            console.error('Terjadi kesalahan:', error);
-        }
-    };
-    addDataFromAPI();
-}, [name, label, description, owner, price, location, file]);
+    const { name, value, type, files } = e.target;
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Memanggil fungsi addProducts untuk mengirim data ke API
+    try {
+      const response = await addProducts(
+          formData.name,
+          formData.label,
+          formData.description,
+          formData.owner,
+          formData.price,
+          formData.location,
+          formData.file
+      );
+      setAlertVisible(true);
+      // Respons dari API akan bisa digunakan di sini jika diperlukan
+      console.log("Respons dari API:", response);
+
+      // Setelah pengiriman data, Anda bisa mengosongkan form jika diperlukan
+      setFormData({
+        name: "",
+        label: "",
+        description: "",
+        owner: "",
+        price: "",
+        location: "",
+        file: null,
+      });
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+    }
+  };
   return (
 <div>
     <NavbarDashboard/>
@@ -64,47 +103,97 @@ function TambahKatalog() {
                     <h5>Form Tambah Produk</h5>
                   </div>
                   <div className="card-body">
-                    <div className="row">
+                    {isAlertVisible && (
+                        <div className="alert alert-success">
+                          Formulir berhasil dikirim!
+                        </div>
+                    )}
                       <div className="col-md-6">
-                        <form onSubmit={handleInputChange} >
-                          <div className="form-group">
-                            <label htmlFor="exampleInputEmail1">Nama Produk</label>
-                            <input type="text" value={name} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                        <form onSubmit={handleSubmit} className="d-flex flex-wrap">
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="name">Nama Produk</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                            />
                           </div>
-                          <div className="form-group"> 
-                            <label htmlFor="exampleInputPassword1">Label</label>
-                            <input type="text" value={label} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="label">Label</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="label"
+                                name="label"
+                                value={formData.label}
+                                onChange={handleInputChange}
+                            />
                           </div>
-                          <div className="form-group"> 
-                            <label htmlFor="exampleInputPassword1">Pemilik</label>
-                            <input type="text" value={owner} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="description">Deskripsi</label>
+                            <textarea
+                                className="form-control"
+                                id="description"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleInputChange}
+                            />
                           </div>
-                          <div className="form-group">
-                            <label htmlFor="exampleFormControlTextarea1">Deskripsi</label>
-                            <textarea className="form-control" id="exampleFormControlTextarea1" rows={3} defaultValue={""}>
-                            {description}
-                            </textarea>
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="owner">Pemilik</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="owner"
+                                name="owner"
+                                value={formData.owner}
+                                onChange={handleInputChange}
+                            />
                           </div>
-                          <button type="submit" className="btn btn-primary">Submit</button>
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="price">Harga</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="price"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="location">Lokasi</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="location"
+                                name="location"
+                                value={formData.location}
+                                onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group flex-grow-1 p-2">
+                            <label htmlFor="file">Gambar Thumbnail</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                id="file"
+                                name="file"
+                                onChange={handleInputChange}
+                            />
+                          </div>
+                          <button
+                              type="submit"
+                              className={`btn btn-primary ${isLoading ? 'disabled' : ''}`}
+                              disabled={isLoading}
+                          >
+                            {isLoading ? 'Loading...' : 'Kirim'}
+                          </button>
                         </form>
                       </div>
-                      <div className="col-md-6">
-                        <form onSubmit={handleInputChange}>
-                          <div className="form-group">
-                            <label>Harga</label>
-                            <input type="text" value={price} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                          </div>
-                          <div className="form-group">
-                            <label>Lokasi</label>
-                            <input type="text" value={location} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                          </div>
-                          <div className="form-group">
-                            <label>Gambar Thumbnail</label>
-                            <input type="file" value={file} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                          </div>
-                        </form>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

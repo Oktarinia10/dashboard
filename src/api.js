@@ -27,13 +27,13 @@ export async function addProducts(name, label, description, owner, price, locati
         headers.set('Authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTYxOTE3MjcsImlhdCI6MTY5NTkwMzcyNywiaXNzIjoiMTZkYmNlMzYtYWUzNi00ZGE3LWE0YTQtZTcxYWI4OWU3ZDhmIiwic3ViIjoiUmVuZHJhIFRyaSBLdXN1bWEifQ.IYFw3ty2JhijJisyDtxZ3yJsWoujS4cePipEDXz97lg');
 
         const body = new FormData();
-        body.set('name', name);
-        body.set('label', label);
-        body.set('description', description);
-        body.set('owner', owner);
-        body.set('price', price);
-        body.set('location', location);
-        body.set('file', file);
+        body.append('name', name);
+        body.append('label', label);
+        body.append('description', description);
+        body.append('owner', owner);
+        body.append('price', price);
+        body.append('location', location);
+        body.append('file', file);
         const response = await fetch(url, {method: 'POST', headers, body});
         if (!response.ok) {
             throw new Error('Gagal mengambil data dari API');
