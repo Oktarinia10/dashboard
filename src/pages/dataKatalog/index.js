@@ -58,7 +58,7 @@ function IndexDataKatalog() {
                   <div className="card-header">
                     <h5>Striped Table</h5>
                     <span className="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
-                    <Link to="/tambah" type="button" class="btn btn-primary" data-toggle="tooltip">Tambah</Link>
+                    <Link to="/tambah" type="button" className="btn btn-primary" data-toggle="tooltip">Tambah</Link>
                   </div>
                   <div className="card-block table-border-style">
                     <div className="table-responsive">

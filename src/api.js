@@ -77,7 +77,7 @@ export async function getProductsByID(id_product) {
 
 export async function putEditProduct(id_product, formData) {
     try {
-        const url = `${base_url_admin}edit-product/${id_product}`;
+        const url = `${base_url_admin}edit-product/`;
         
         const headers = new Headers({
             'X-Api-Key': x_api_key,

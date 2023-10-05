@@ -10,7 +10,7 @@ function Home() {
   return (
     <div>
       <NavbarDashboard/>
-      <div className="pcoded-main-container">
+  <div className="pcoded-main-container">
     <div className="pcoded-wrapper">
       <div className="pcoded-content">
         <div className="pcoded-inner-content">
