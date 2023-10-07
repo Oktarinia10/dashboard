@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react";
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import '../../style.css';
+
 
 function NavbarDashboard() {
-  const expand = 'lg'; // Ganti 'lg' dengan nilai yang Anda inginkan
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
-    <>
-     {/* [ Pre-loader ] End */}
+    
+<div>
+    <div>
+  {/* [ Pre-loader ] End */}
   {/* [ navigation menu ] start */}
   <nav className="pcoded-navbar">
     <div className="navbar-wrapper">
@@ -45,44 +49,46 @@ function NavbarDashboard() {
     </div>
   </nav>
   {/* [ navigation menu ] end */}
-      <Navbar id="desktop-navbar" expand={expand} className="bg-body-tertiary mb-3">
-        <Container fluid>
-        <div className="button-m" style={{ position: "relative", display: "flex", justifyContent: "", alignItems: "flex-start" }}>
-      <Navbar.Toggle />
- 
+  {/* [ Header ] start */}
+  <header className="navbar pcoded-header navbar-expand-lg navbar-light">
+  <div className="m-header" >
+      
+      <a className="b-brand">
+      <div className="b-bg" onClick={handleShow}>
+          <i className="feather icon-trending-up"/>
+        </div>
+        <span className="b-title">Terangnesia</span>
+      </a>
     </div>
+  
+    <a className="mobile-menu" id="mobile-header" href="javascript:">
+      <i className="feather icon-more-horizontal" />
+    </a>
+    <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+        <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Nav.Link href="#action1">Home</Nav.Link>
+                <Nav.Link href="#action2">Link</Nav.Link>
+                
+                  </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+    
+  </header>
+  {/* [ Header ] end */}
+  {/* [ Main Content ] start */}
+  
+</div>
 
-          <Navbar.Offcanvas >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>
-            <div className="m-header" >
-                <a className="b-brand">
-              <div className="b-bg">
-                <i className="feather icon-trending-up"/>
-            </div>
-                <p className="b-title">Terangnesia</p>
-                </a>
-            </div>
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                <Link to="/katalog" className="nav-link">Link</Link>
-                <NavDropdown title="Dropdown">
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4"> Another action </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action5">
-                    Something else here
-                  </NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </Container>
-      </Navbar>
-    </>
+
+  
+
+  
+</div>
+
   );
 }
 

@@ -1,0 +1,9 @@
+@media (min-width: 992px) {
+    #desktop-navbar {
+      display: none;
+    }
+  }
+  .nav-link {
+    text-decoration: none; /* Menghilangkan garis bawah dari tautan */
+  }
+    
